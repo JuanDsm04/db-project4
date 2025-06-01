@@ -34,7 +34,7 @@ CREATE TABLE dish_ingredients (
   id SERIAL PRIMARY KEY,
   id_ingredient INT NOT NULL REFERENCES ingredients(id),
   id_dish INT NOT NULL REFERENCES dishes(id),
-  quantity DECIMAL(10,2) NOT NULL DEFAULT 1 CHECK (quantity > 0)  -- 🔧
+  quantity DECIMAL(10,2) NOT NULL DEFAULT 1 CHECK (quantity > 0)
 );
 
 CREATE TABLE orders (
