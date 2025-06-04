@@ -1,0 +1,9 @@
+.navigationBarStyle{
+    height: 100%;
+
+    min-width: 200px;
+    width: 20%;
+
+    background-color: #a1403e;
+    border-right: 8px double #6b0606c8;
+}

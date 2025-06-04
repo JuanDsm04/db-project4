@@ -1,0 +1,22 @@
+.headerStyle {
+    height: 10%;
+    width: 100%;
+    min-height: 75px;
+
+    background-color: #e6bfa0;
+    border-bottom: 8px double #c08b5f;
+ 
+}
+
+.subHeaderStyle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 100%;
+    min-height: 55px;
+
+    background-color: #cc8e83;
+    border-bottom: 8px double #a55e51;
+ 
+}

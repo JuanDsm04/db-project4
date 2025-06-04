@@ -1,0 +1,31 @@
+
+h1 {
+    
+    margin: 0px 0px;
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 10px;
+    color: #a03e3d;   
+    text-align: center;
+    text-transform: capitalize;
+}
+
+h2 {
+    
+    margin: 15px 10px;
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 0px;
+    color: #f8edd7;   
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.subTitle{
+    
+    margin: 5px 20px;
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 0px;
+    color: #f8edd7;  
+    font-size: 30px; 
+    text-align: center;
+    text-transform: capitalize;
+}

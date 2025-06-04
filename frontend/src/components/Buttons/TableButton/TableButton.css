@@ -1,0 +1,30 @@
+
+
+.navigationButton2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+    width: 100px;
+    margin: 5px 10px;
+    border-radius: 5px;
+
+    font-size: 16px;
+    text-align: center;
+    border: 5px double #d1bf9c;
+    background-color: #f8edd7;
+    color: #a1403e;
+
+}
+
+
+.navigationButton2:hover {
+    border-color: #6d1514c7
+}
+
+
+button:focus,
+button:focus-visible {
+  border-color: #df7d7bc7
+}

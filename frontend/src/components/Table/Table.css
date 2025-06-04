@@ -1,0 +1,37 @@
+.div {
+width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem;
+}
+
+table {
+  
+  border-collapse: collapse;
+  margin: 1.5rem;
+}
+
+td {
+  border: 3px solid #d1bf9c;
+  padding: 0.3rem;
+  text-align: left;
+}
+
+th {
+  border: 3px solid #6b0606c8;
+  background-color: #a1403e;
+  padding: 0px 5px;
+}
+
+td {
+    color: #7e2a29;
+}
+
+h3 {
+   color:  #a1403e;
+}
+
+.divT{
+    margin: 10px;
+    width: 95%;
+}
+
