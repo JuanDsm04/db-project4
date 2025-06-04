@@ -1,34 +1,42 @@
-//Es esta sección se llaman y se definen las pantallas :D
-
 import { SubHeader } from '../Headers/SubHeader'
 import './content.css'
 import { ViewDishes } from './ViewDishes/ViewDishes'
+import { ViewStaff } from './ViewStaff/ViewStaff'
 
-export const Content = ({
-    contentOption
-}) => {
-    const showSection = (option) => {
+export const Content = ({ contentOption }) => {
+    const getTitle = (option) => {
         switch (option) {
-        case 'viewDishes':
-            return (
-                <ViewDishes></ViewDishes>
-            )
-        case 'hola':
-            return (
-                <button>duedue</button>
-            )
+            case 'viewDishes':
+                return 'Platillos'
+            case 'viewStaff':
+                return 'Turnos del personal'
+            case 'hola':
+                return 'Vista de prueba'
+            default:
+                return 'Platillos'
         }
     }
 
-    return(
+    const showSection = (option) => {
+        switch (option) {
+            case 'viewDishes':
+                return <ViewDishes />
+            case 'viewStaff':
+                return <ViewStaff />
+            case 'hola':
+                return <button>duedue</button>
+            default:
+                return <ViewDishes />
+        }
+    }
+
+    return (
         <div className='divContent'>
-        <SubHeader titleSection={'Platillos'}></SubHeader>
-       
-        <article className='articleStyle'>
-            
-            {showSection(contentOption)}
-        </article>
+            <SubHeader titleSection={getTitle(contentOption)} />
+
+            <article className='articleStyle'>
+                {showSection(contentOption)}
+            </article>
         </div>
-        
     )
 }
