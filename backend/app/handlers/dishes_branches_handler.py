@@ -9,7 +9,7 @@ from app.models.dish_ingredient import DishIngredient
 from app.models.branch import Branch
 from app.models.branch_menu import BranchMenu
 from app.models.invoice_detail import InvoiceDetail
-from app.handlers.router import router
+from .router import router
 
 
 class modelNewDish(BaseModel):
