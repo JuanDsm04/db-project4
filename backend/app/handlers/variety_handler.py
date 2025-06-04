@@ -2,7 +2,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from app.db import SessionLocal
 from .router import router
-from app.models.staff_info import StaffInfo
+from app.models.ingredient import Ingredient
 
 def get_db():
     db = SessionLocal()
@@ -11,6 +11,8 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/staffInfo")
-def get_staff_info(db: Session = Depends(get_db)):
-    return db.query(StaffInfo).all()
+
+@router.get("/getIngredients")
+def get_all_ingredients(db: Session = Depends(get_db)):
+    return db.query(Ingredient).all()
+
