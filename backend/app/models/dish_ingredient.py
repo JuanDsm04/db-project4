@@ -1,9 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, Numeric, CheckConstraint
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
-
+from .BASE import Base
 class DishIngredient(Base):
     __tablename__ = 'dish_ingredients'
 
@@ -16,8 +14,8 @@ class DishIngredient(Base):
         CheckConstraint('quantity > 0', name='check_quantity_positive'),
     )
 
-    ingredient = relationship("Ingredient", backref="dish_links")
-    dish = relationship("Dish", backref="ingredient_links")
+    # ingredient = relationship("Ingredient", backref="dish_links")
+    # dish = relationship("Dish", backref="ingredient_links")
 
     def __repr__(self):
         return f"<DishIngredient(dish_id={self.id_dish}, ingredient_id={self.id_ingredient}, quantity={self.quantity})>"

@@ -1,10 +1,9 @@
 from sqlalchemy import (
     Column, Integer, ForeignKey, DateTime, func
 )
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from .BASE import Base
 
 class TableCustomer(Base):
     __tablename__ = 'table_customers'
@@ -15,8 +14,8 @@ class TableCustomer(Base):
     arrival_time = Column(DateTime, nullable=False, default=func.current_timestamp())
     departure_time = Column(DateTime)
 
-    customer = relationship("Customer", backref="table_customers")
-    waiter_shift = relationship("ShiftRecord", backref="table_customers")
+    # customer = relationship("Customer", backref="table_customers")
+    # waiter_shift = relationship("ShiftRecord", backref="table_customers")
 
     def __repr__(self):
         return (

@@ -1,11 +1,9 @@
 from sqlalchemy import (
     Column, Integer, ForeignKey, Numeric, CheckConstraint
 )
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
-
+from .BASE import Base
 class InvoiceDetail(Base):
     __tablename__ = 'invoice_details'
 
@@ -21,8 +19,8 @@ class InvoiceDetail(Base):
         CheckConstraint('unit_price >= 0', name='check_unit_price_positive'),
     )
 
-    invoice = relationship("Invoice", back_populates="details")
-    dish = relationship("Dish")
+    # invoice = relationship("Invoice", back_populates="details")
+    # dish = relationship("Dish")
 
     def __repr__(self):
         return (

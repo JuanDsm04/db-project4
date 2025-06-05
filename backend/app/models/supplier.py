@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, CheckConstraint
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from .BASE import Base
 
 class Supplier(Base):
     __tablename__ = 'suppliers'
@@ -14,6 +14,6 @@ class Supplier(Base):
     __table_args__ = (
         CheckConstraint("phone ~ '^\d{8}$'", name='check_phone_format'),
     )
-
+    
     def __repr__(self):
         return f"<Supplier(name='{self.name}', phone='{self.phone}', address='{self.address}')>"

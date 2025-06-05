@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Date, Time, Enum, Text
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+from .BASE import Base
+
 SHIFT_STATUSES = ('Scheduled', 'Completed', 'Absent')
 
 class StaffInfo(Base):

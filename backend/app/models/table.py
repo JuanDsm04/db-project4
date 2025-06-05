@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, CheckConstraint
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from .BASE import Base
 
 class Table(Base):
     __tablename__ = 'tables'
@@ -16,7 +15,7 @@ class Table(Base):
         CheckConstraint('capacity > 0', name='check_capacity_positive'),
     )
 
-    branch = relationship("Branch", backref="tables")
+    # branch = relationship("Branch", backref="tables")
 
     def __repr__(self):
         return f"<Table(branch_id={self.id_branch}, table_number={self.table_number}, capacity={self.capacity})>"

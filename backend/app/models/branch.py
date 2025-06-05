@@ -1,9 +1,8 @@
 from sqlalchemy import (
     Column, Integer, String, Time, CheckConstraint
 )
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+from .BASE import Base
 
 class Branch(Base):
     __tablename__ = 'branches'

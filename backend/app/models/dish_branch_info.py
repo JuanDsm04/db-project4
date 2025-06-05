@@ -1,7 +1,6 @@
 from sqlalchemy import Column, String, Integer,Enum,Text,Numeric
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+from .BASE import Base
 DISH_TYPES = ('Appetizer', 'Main', 'Dessert', 'Beverage')
 CATEGORIES = ('Salads', 'Pasta', 'Grill', 'Soup', 'Seafood')
 UNIT_MEASURES = ('g', 'kg', 'ml', 'l', 'unit')
