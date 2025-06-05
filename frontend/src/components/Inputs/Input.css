@@ -1,0 +1,64 @@
+.contentInput{
+  margin: 10px;
+}
+
+.inputStyle {
+    height: 30px;
+    width: 450px;
+    padding: 0px 10px;
+    border-radius: 10px;
+    border: 5px double #a1403e;
+    background-color: transparent;
+    font-size: 16px;
+    color: #a1403e;
+}
+
+.titleInput {
+  margin: 0px;
+  padding-left: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #a1403e;
+}
+
+
+.searchable-select {
+  position: relative;
+  width: 250px;
+  font-family: Arial, sans-serif;
+}
+
+
+
+.dropdown {
+  position: absolute;
+  top: 48px;
+  left: 10px;
+  right: 0;
+  max-height: 150px;
+  width: 470px;
+  overflow-y: auto;
+  border: 5px double #a1403e;
+  border-radius: 10px;
+  
+  
+  z-index: 10;
+}
+
+.dropdown-item {
+  padding: 5px;
+  cursor: pointer;
+  color: #a1403e;
+
+}
+
+.dropdown-item:hover {
+  background-color: #cc8e83;
+  color: #ffffff;
+}
+
+p {
+  margin-top: 0px;
+  font-size: 14px;
+  color: #8a2e2e;
+}
