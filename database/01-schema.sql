@@ -223,7 +223,7 @@ FOR EACH ROW EXECUTE FUNCTION update_invoice_total();
 
 --VIEWS
 CREATE VIEW dishesBranchInfo AS
-SELECT d.name, d.description, d.type, d.category, d.preparation_minutes, d.base_price, bm.current_price, b.location, di.quantity, i.name as ingredient, i.unit_measure
+SELECT d.id, d.name, d.description, d.type, d.category, d.preparation_minutes, d.base_price, bm.current_price, b.location, di.quantity, i.name as ingredient, i.unit_measure
 FROM dishes d 
 JOIN branch_menus bm ON bm.id_dish = d.id
 JOIN branches b ON bm.id_branch = b.id

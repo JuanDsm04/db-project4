@@ -9,6 +9,7 @@ class DishBranchInfo(Base):
     __tablename__ = 'dishesbranchinfo' 
     __table_args__ = {'extend_existing': True}
     
+    id = Column(Integer, primary_key=True,nullable=False)
     name = Column(String(200), nullable=False,primary_key=True)
     description = Column(Text)
     type = Column(Enum(*DISH_TYPES, name='dish_type'), nullable=False)
