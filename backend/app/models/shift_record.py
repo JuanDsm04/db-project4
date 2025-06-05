@@ -2,11 +2,9 @@ from sqlalchemy import (
     Column, Integer, ForeignKey, Date, Time, Interval, Text,
     Enum, CheckConstraint
 )
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
-
+from .BASE import Base
 SHIFT_STATUSES = ('Scheduled', 'Completed', 'Absent')
 
 class ShiftRecord(Base):
@@ -26,8 +24,8 @@ class ShiftRecord(Base):
         CheckConstraint('end_time > start_time', name='check_time_order'),
     )
 
-    employee = relationship("Staff", backref="shift_records")
-    branch = relationship("Branch", backref="shift_records")
+    # employee = relationship("Staff", backref="shift_records")
+    # branch = relationship("Branch", backref="shift_records")
 
     def __repr__(self):
         return (

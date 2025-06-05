@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, Numeric, CheckConstraint
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from .BASE import Base
 
 class BranchMenu(Base):
     __tablename__ = 'branch_menus'
@@ -16,8 +15,8 @@ class BranchMenu(Base):
         CheckConstraint('current_price >= 0', name='check_current_price_positive'),
     )
 
-    branch = relationship("Branch", backref="menus")
-    dish = relationship("Dish", backref="branch_menus")
+    # branch = relationship("Branch", backref="menus")
+    # dish = relationship("Dish", backref="branch_menus")
 
     def __repr__(self):
         return f"<BranchMenu(branch_id={self.id_branch}, dish_id={self.id_dish}, price={self.current_price})>"

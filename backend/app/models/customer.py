@@ -1,8 +1,6 @@
 from sqlalchemy import Column, Integer, String, CheckConstraint
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
-
+from .BASE import Base
 class Customer(Base):
     __tablename__ = 'customers'
 

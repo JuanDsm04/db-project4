@@ -2,9 +2,8 @@ from sqlalchemy import (
     Column, Integer, String, Text, Enum,
     Numeric, CheckConstraint
 )
-from sqlalchemy.ext.declarative import declarative_base
+from .BASE import Base
 
-Base = declarative_base()
 
 DISH_TYPES = ('Appetizer', 'Main', 'Dessert', 'Beverage')
 CATEGORIES = ('Salads', 'Pasta', 'Grill', 'Soup', 'Seafood')

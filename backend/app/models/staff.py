@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, CheckConstraint, func
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from .BASE import Base
 
 class Staff(Base):
     __tablename__ = 'staff'
@@ -17,7 +16,7 @@ class Staff(Base):
         CheckConstraint("phone ~ '^\d{8}$'", name='check_phone_format'),
     )
 
-    role = relationship("StaffRole", backref="staff_members")
+    # role = relationship("StaffRole", backref="staff_members")
 
     def __repr__(self):
         return f"<Staff(name='{self.name}', role_id={self.id_role}, phone='{self.phone}', hire_date={self.hire_date})>"

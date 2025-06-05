@@ -1,11 +1,9 @@
 from sqlalchemy import (
     Column, Integer, ForeignKey, Numeric, CheckConstraint
 )
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
-
+from .BASE import Base
 class OrderDetail(Base):
     __tablename__ = 'order_details'
 
@@ -20,8 +18,8 @@ class OrderDetail(Base):
         CheckConstraint('price >= 0', name='check_price_non_negative'),
     )
 
-    order = relationship("Order", backref="details")
-    ingredient = relationship("Ingredient", backref="order_usages")
+    # order = relationship("Order", backref="details")
+    # ingredient = relationship("Ingredient", backref="order_usages")
 
     def __repr__(self):
         return f"<OrderDetail(order_id={self.id_order}, ingredient_id={self.id_ingredient}, quantity={self.quantity}, price={self.price})>"
