@@ -1,5 +1,6 @@
 import { SubHeader } from '../Headers/SubHeader'
 import './content.css'
+import { CrudDishes } from './CrudDishes/CrudDishes'
 import { ViewDishes } from './ViewDishes/ViewDishes'
 import { ViewStaff } from './ViewStaff/ViewStaff'
 
@@ -12,6 +13,8 @@ export const Content = ({ contentOption }) => {
                 return 'Turnos del personal'
             case 'hola':
                 return 'Vista de prueba'
+            case 'crudDishes':
+                return 'hola?'
             default:
                 return 'Platillos'
         }
@@ -23,8 +26,8 @@ export const Content = ({ contentOption }) => {
                 return <ViewDishes />
             case 'viewStaff':
                 return <ViewStaff />
-            case 'hola':
-                return <button>duedue</button>
+            case 'crudDishes':
+                return <CrudDishes/>
             default:
                 return <ViewDishes />
         }
@@ -33,7 +36,7 @@ export const Content = ({ contentOption }) => {
     return (
         <div className='divContent'>
             <SubHeader titleSection={getTitle(contentOption)} />
-
+        
             <article className='articleStyle'>
                 {showSection(contentOption)}
             </article>

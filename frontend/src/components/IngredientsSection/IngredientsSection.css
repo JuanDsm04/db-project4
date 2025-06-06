@@ -1,0 +1,25 @@
+
+
+.ingredientsSectionS{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative; 
+   
+    gap: 5px;
+    width: 50%;
+    min-width: 465px;
+    max-width: 600px;   
+}
+
+.selectI{
+    width: 50%;
+    position: relative;
+    
+}
+
+.cantidadI{
+    width: 25%;
+    
+    
+}

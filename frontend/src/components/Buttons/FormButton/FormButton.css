@@ -1,0 +1,23 @@
+.formButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+    width: 250px;
+    margin: 50px 10px;
+    border-radius: 5px;
+
+    background-color: #a1403e;
+    border: 5px double #6b0606c8;
+    font-size: 18px;
+    text-align: center;
+    color: #f8edd7;
+
+}
+
+.navigationButton:hover {
+    border-color: #6d1514c7
+}
+
+

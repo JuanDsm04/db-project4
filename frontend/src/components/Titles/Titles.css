@@ -9,6 +9,10 @@ h1 {
     text-transform: capitalize;
 }
 
+.titleForm {
+    color: #a03e3d;
+}
+
 h2 {
     
     margin: 15px 10px;
