@@ -222,7 +222,7 @@ AFTER DELETE ON invoice_details
 FOR EACH ROW EXECUTE FUNCTION update_invoice_total();
 
 --VIEWS
-CREATE VIEW dishesBranchInfo AS
+CREATE OR REPLACE VIEW dishesBranchInfo AS
 SELECT d.id, d.name, d.description, d.type, d.category, d.preparation_minutes, d.base_price, bm.current_price, b.location, di.quantity, i.name as ingredient, i.unit_measure
 FROM dishes d 
 JOIN branch_menus bm ON bm.id_dish = d.id
@@ -230,9 +230,23 @@ JOIN branches b ON bm.id_branch = b.id
 JOIN dish_ingredients di ON di.id_dish = d.id
 JOIN ingredients i ON di.id_ingredient = i.id;
 
-CREATE VIEW staffInfo AS
+CREATE OR REPLACE VIEW staffInfo AS
 SELECT s.name, s.phone, sr.name as rol, sh.date, sh.start_time, sh.end_time, sh.status, sh.comment, b.location 
 FROM shift_records sh 
 JOIN staff s ON sh.id_employee = s.id
 JOIN staff_roles sr ON s.id_role = sr.id
 JOIN branches b ON sh.id_branch = b.id;
+
+CREATE OR REPLACE VIEW orders_info AS
+SELECT 
+	od.id AS id, 
+	o.id AS order_number,
+	i.name AS ingredient, 
+	od.quantity AS quantity, 
+	od.price AS price, 
+	i.unit_measure AS unit, 
+	o.order_date, 
+	o.status
+FROM order_details AS od
+JOIN orders AS o ON o.id = od.id_order
+JOIN ingredients AS i ON i.id = od.id_ingredient;

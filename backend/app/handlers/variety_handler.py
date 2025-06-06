@@ -1,8 +1,10 @@
-from fastapi import Depends
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.db import SessionLocal
-from .router import router
 from app.models.ingredient import Ingredient
+
+router = APIRouter()
+
 
 def get_db():
     db = SessionLocal()
@@ -15,4 +17,3 @@ def get_db():
 @router.get("/getIngredients")
 def get_all_ingredients(db: Session = Depends(get_db)):
     return db.query(Ingredient).all()
-

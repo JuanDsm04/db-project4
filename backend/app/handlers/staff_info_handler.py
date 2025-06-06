@@ -1,8 +1,10 @@
-from fastapi import Depends
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.db import SessionLocal
-from .router import router
 from app.models.staff_info import StaffInfo
+
+router = APIRouter()
+
 
 def get_db():
     db = SessionLocal()
@@ -10,6 +12,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
 
 @router.get("/staffInfo")
 def get_staff_info(db: Session = Depends(get_db)):
