@@ -4,6 +4,7 @@ import { useState, useRef, useEffect} from "react";
 
 export const Select = ({ 
   text, 
+  value,
   options, 
   valueKey = 'id',
   displayKey = "name",
@@ -78,7 +79,7 @@ export const Select = ({
       <p className='titleInput'> {text} </p>
       <input
         type="text"
-        value={searchQuery}
+        value={(value?.[displayKey] ?? value ?? searchQuery) || ""}
         onChange={handleSearchChange}
         onClick={toggleDropdown}
         placeholder="Buscar opción..."

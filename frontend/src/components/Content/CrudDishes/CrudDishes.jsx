@@ -93,20 +93,22 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
             
             <TitleForms text={'Listado de ingredientes'}></TitleForms>
             
-            {ingredients.length > 0 && ingredients.map((ing, index) => (
-            <div key={index}>
-                <IngredientsSection
-                text1="Cantidad:"
-                text2="Unidad"
-                text3="Ingrediente"
-                ingredientOptions={ingredientOptions}
-                selectedIngredient={ing.name}
-                onIngredientChange={(field, value) =>
-                    handleIngredientChange(index, field, value)
-                }
-                />
-            </div>
-            ))}
+            {ingredients.length > 0 && ingredients.map((ing, index) => {
+                return (
+                    <div key={index}>
+                        <IngredientsSection
+                            text1="Cantidad:"
+                            text2="Unidad"
+                            text3="Ingrediente"
+                            ingredientOptions={ingredientOptions}
+                            selectedIngredient={ing}
+                            onIngredientChange={(field, value) =>
+                                handleIngredientChange(index, field, value)
+                                }
+                            />
+                        </div>
+                    );
+                })}
 
 
 

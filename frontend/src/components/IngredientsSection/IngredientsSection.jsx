@@ -18,15 +18,15 @@ export const IngredientsSection = ({
     const [quantity, setQuantity] = useState("");
     const [unitMeasure, setUnitMeasure] = useState("");
     
-    const [localselectedIngredient, setLocalSelectedIngredient] = useState(selectedIngredient);
+    const [localselectedIngredient, setLocalSelectedIngredient] = useState("");
 
     useEffect(() => {
         if (selectedIngredient) {
-            setLocalSelectedIngredient(selectedIngredient);
+            setLocalSelectedIngredient(selectedIngredient.name ||"");
             setQuantity(selectedIngredient.quantity || "");
             setUnitMeasure(selectedIngredient.unit_measure || "");
         }
-    }, [selectedIngredient]);  
+    }, []);  
 
     const handleIngredientChange = (selectedOption) => {
         setLocalSelectedIngredient(selectedOption);
