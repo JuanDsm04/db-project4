@@ -1,11 +1,28 @@
 .contentInput{
-  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0px;
+  width: 100%;
+  max-width: 460px;
+ 
+}
+
+.contentInputSelect{
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0px;
+
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+ 
+ 
 }
 
 .inputStyle {
     height: 30px;
-    width: 450px;
-    padding: 0px 10px;
+    max-width: 460px;
+    padding: 0px 0px 0px 10px;
     border-radius: 10px;
     border: 5px double #a1403e;
     background-color: transparent;
@@ -15,6 +32,7 @@
 
 .titleInput {
   margin: 0px;
+  
   padding-left: 5px;
   font-size: 18px;
   font-weight: bold;
@@ -23,6 +41,7 @@
 
 
 .searchable-select {
+  
   position: relative;
   width: 250px;
   font-family: Arial, sans-serif;
@@ -31,18 +50,21 @@
 
 
 .dropdown {
-  position: absolute;
-  top: 48px;
-  left: 10px;
-  right: 0;
+ position: absolute;
+  top: 100%;
+  left: 0;
+  
+  display: block; 
   max-height: 150px;
-  width: 470px;
+  width: 100%;
+  max-width: 460px;
   overflow-y: auto;
   border: 5px double #a1403e;
+  background-color: #f8edd7;
   border-radius: 10px;
+  z-index: 100;
+
   
-  
-  z-index: 10;
 }
 
 .dropdown-item {
@@ -58,7 +80,6 @@
 }
 
 p {
-  margin-top: 0px;
   font-size: 14px;
   color: #8a2e2e;
 }

@@ -3,14 +3,15 @@ import './Table.css'
 
 export const Table = ({
     nameColumns,
-    data
+    data,
+    onShowMore
 }) => {
     const renderCellContent = (col, item) => {
     if (col.key === 'showMore') {
       return (
         <TableButton
             text = {'Ver más ...'}
-            onClick={()=>onEditar(item.carnet)}
+            onClick={() => onShowMore(item)}
         ></TableButton>
     
       );
@@ -27,9 +28,6 @@ export const Table = ({
         </button>
       );
     }
-
-
-    
     return <span>{item[col.key]}</span>;
   };
 

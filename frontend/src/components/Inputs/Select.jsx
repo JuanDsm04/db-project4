@@ -1,11 +1,22 @@
 
 import { useState, useRef, useEffect} from "react";
 
-export const Select = ({ text, options }) => {
-  const [filteredOptions, setFilteredOptions] = useState(options);
+
+export const Select = ({ 
+  text, 
+  options, 
+  valueKey = 'id',
+  displayKey = "name",
+  onChange
+
+}) => {
+  const [filteredOptions, setFilteredOptions] = useState(options || []);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFiltering, setIsFiltering] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+
+
 
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
@@ -15,22 +26,36 @@ export const Select = ({ text, options }) => {
     setSearchQuery(query);
 
     
-    const newFilteredOptions = options.filter(option =>
-      option.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredOptions(newFilteredOptions);
+    if (query) {
+      setIsFiltering(true); // Activamos el estado de filtro
+      const newFilteredOptions = (options || []).filter(option =>
+        option[displayKey]?.toLowerCase().includes(query.toLowerCase())
+      );
+
+      setFilteredOptions(newFilteredOptions);
+    } else {
+      setIsFiltering(false); // Si la búsqueda está vacía, no estamos filtrando
+      setFilteredOptions(options); // Mostramos todas las opciones
+    }
   };
 
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
-    setSearchQuery(option); 
+    setSearchQuery(option[displayKey]); 
     setFilteredOptions(options); 
-    etIsDropdownOpen(false);
+    setIsDropdownOpen(false);
+    if (onChange) {
+      onChange(option); // Emitir el cambio hacia el componente padre
+    }
+
   };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(prev => !prev);
+    if (!isDropdownOpen) {
+      setFilteredOptions(options);
+    }
   };
 
   const handleClickOutside = (e) => {
@@ -48,7 +73,7 @@ export const Select = ({ text, options }) => {
 
 
   return (
-    <div className="contentInput">
+    <div className="contentInputSelect">
     
       <p className='titleInput'> {text} </p>
       <input
@@ -58,17 +83,18 @@ export const Select = ({ text, options }) => {
         onClick={toggleDropdown}
         placeholder="Buscar opción..."
         className="inputStyle"
+        ref={inputRef}
       />
     {isDropdownOpen && filteredOptions.length > 0 && (
 
-        <div className="dropdown">
-          {filteredOptions.map((option, index) => (
+        <div className="dropdown" ref={dropdownRef}>
+          {filteredOptions.map((option) => (
             <div
-              key={index}
+              key={option[valueKey]}
               className="dropdown-item"
               onClick={() => handleOptionSelect(option)}
             >
-              {option}
+              {option[displayKey]}
             </div>
           ))}
         </div>

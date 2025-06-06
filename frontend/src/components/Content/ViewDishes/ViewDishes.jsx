@@ -1,38 +1,50 @@
 import { useState, useEffect } from 'react'
-import { Header } from '../../Headers/Header'
-import { SubHeader } from '../../Headers/SubHeader'
 import { Table } from '../../Table/Table'
 import './viewDishes.css'
+import { CrudDishes } from '../CrudDishes/CrudDishes'
 
 export const ViewDishes = () => {
     const [dishesData, setDishesData] = useState([])
-    /* ejemplo
-    useEffect(() => {
-    fetch('http://localhost:8000/dishesInfo')
-        .then(res => res.json())
-        .then(data => setDishesData(data))
-        .catch(console.error);
-    }, []);
-    */
+    const [selectedDish, setSelectedDish] = useState(null)
 
+    
     useEffect(() => {
         fetch('http://localhost:8000/dishesInfo')
-        .then(res => res.json())
-        .then(data => {
+            .then(res => res.json())
+            .then(data => {
             // Filtrar los duplicados basados en el campo 'name'
             const seen = new Set();
-            const uniqueDishes = data.filter(dish => {
-            if (seen.has(dish.name)) {
-                return false; // Si ya vimos este nombre, no lo mostramos
-            } else {
-                seen.add(dish.name); // Si no lo hemos visto, lo añadimos al set y lo mostramos
-                return true;
+            
+            // Filtrar y organizar los datos de los platillos
+           const uniqueDishes = data.reduce((acc, dish) => {
+            if (!seen.has(dish.name)) {
+                seen.add(dish.name);
+                acc.push({ ...dish, ingredients: [] });
             }
-            });
-            setDishesData(uniqueDishes); // Guardar los datos filtrados
-        })
-        .catch(console.error);
+            const existing = acc.find(d => d.name === dish.name);
+            if (dish.ingredient) {
+                existing.ingredients.push({
+                name: dish.ingredient,
+                unit_measure: dish.unit_measure,
+                quantity: dish.quantity,
+                });
+            }
+            return acc;
+            }, []);
+
+
+            setDishesData(uniqueDishes); // Guardar los datos filtrados y organizados
+            })
+            .catch(console.error);
     }, []);
+
+
+    const handleShowMore = (dish) => {
+        console.log('Platillo seleccionado:', dish);
+
+        // Luego pasas el platillo transformado a CrudDishes
+        setSelectedDish(dish); 
+    };
 
     const columnasA = [
     { key: 'name', titulo: 'id' },
@@ -64,7 +76,25 @@ export const ViewDishes = () => {
 
     return(
         <section className='viewDishesStyle'>
-            <Table nameColumns= {columnas} data={dishesData} ></Table>
+            
+            <Table 
+                nameColumns= {columnas} 
+                data={dishesData.map(dish => ({
+                    ...dish,
+                    showMore: (
+                        <button onClick={() => handleShowMore(dish)}>
+                            Mostrar más
+                        </button>
+                    ),
+                }))}
+                onShowMore={handleShowMore}
+            ></Table>
+
+            {selectedDish && (
+                <CrudDishes
+                    dishData={selectedDish} // Pasar todos los datos del platillo
+                />
+            )}
         </section>
     )
 }
