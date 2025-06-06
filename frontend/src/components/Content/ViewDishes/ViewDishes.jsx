@@ -3,9 +3,9 @@ import { Table } from '../../Table/Table'
 import './viewDishes.css'
 import { CrudDishes } from '../CrudDishes/CrudDishes'
 
-export const ViewDishes = () => {
+export const ViewDishes = ({onSelect, setSelectedDish}) => {
     const [dishesData, setDishesData] = useState([])
-    const [selectedDish, setSelectedDish] = useState(null)
+    //const [selectedDish, setSelectedDish] = useState(null)
 
     
     useEffect(() => {
@@ -88,13 +88,10 @@ export const ViewDishes = () => {
                     ),
                 }))}
                 onShowMore={handleShowMore}
+                onSelect = {onSelect}
             ></Table>
 
-            {selectedDish && (
-                <CrudDishes
-                    dishData={selectedDish} // Pasar todos los datos del platillo
-                />
-            )}
+           
         </section>
     )
 }

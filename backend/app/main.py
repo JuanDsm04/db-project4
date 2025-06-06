@@ -6,6 +6,10 @@ from app.handlers.staff_info_handler import router as staff_router
 from app.handlers.variety_handler import router as variety_router
 
 app = FastAPI()
+app.include_router(dishes_router)
+app.include_router(orders_router)
+app.include_router(staff_router)
+app.include_router(variety_router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,8 +19,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(dishes_router)
-app.include_router(orders_router)
-app.include_router(staff_router)
-app.include_router(variety_router)
+
 

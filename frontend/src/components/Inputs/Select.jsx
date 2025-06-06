@@ -17,10 +17,24 @@ export const Select = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
-
-
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof value === "string") {
+      // Si el value es solo un string (location), buscamos la opción correspondiente en options
+      const selected = options.find(option => option[displayKey] === value);
+      if (selected) {
+        setSearchQuery(selected[displayKey]);
+        setSelectedOption(selected);
+      }
+    } else if (value) {
+      // Si el value es un objeto, lo asignamos directamente
+      setSearchQuery(value[displayKey]);
+      setSelectedOption(value);
+    }
+  }, [value, options]);
+
   
   const handleSearchChange = (e) => {
     const query = e.target.value;
@@ -79,7 +93,8 @@ export const Select = ({
       <p className='titleInput'> {text} </p>
       <input
         type="text"
-        value={(value?.[displayKey] ?? value ?? searchQuery) || ""}
+        //value={(value?.[displayKey] ?? value ?? searchQuery) || ""}
+        value= {searchQuery}
         onChange={handleSearchChange}
         onClick={toggleDropdown}
         placeholder="Buscar opción..."

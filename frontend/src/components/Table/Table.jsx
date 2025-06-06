@@ -4,14 +4,15 @@ import './Table.css'
 export const Table = ({
     nameColumns,
     data,
-    onShowMore
+    onShowMore,
+    onSelect
 }) => {
     const renderCellContent = (col, item) => {
     if (col.key === 'showMore') {
       return (
         <TableButton
             text = {'Ver más ...'}
-            onClick={() => onShowMore(item)}
+            onClick={() => {onShowMore(item), onSelect('crudDishes')}}
         ></TableButton>
     
       );

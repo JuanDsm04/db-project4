@@ -3,14 +3,15 @@ import { Header } from "../Headers/Header"
 import './section.css'
 
 export const Section = ({
-    content
+    content,
+    onSelect
 }) => {
 
     
     return (
         <main className="fullContentStyle">
             <Header titleRestaurant={'Restaurante'}></Header>
-            <Content contentOption = {content}> </Content>
+            <Content contentOption = {content} onSelect={onSelect}> </Content>
         </main>
     )
 }

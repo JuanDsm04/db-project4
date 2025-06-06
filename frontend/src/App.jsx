@@ -12,7 +12,7 @@ export const App = () => {
   return (
     <div className='appStyle'>
       <NavigationBar onSelect={setSection} />
-      <Section content = {section}/>
+      <Section content = {section} onSelect={setSection}/>
      
     </div>
   )

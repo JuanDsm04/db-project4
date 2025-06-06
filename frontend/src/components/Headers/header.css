@@ -1,4 +1,5 @@
 .headerStyle {
+    
     height: 10%;
     width: 100%;
     min-height: 75px;
@@ -9,14 +10,25 @@
 }
 
 .subHeaderStyle {
-    display: flex;
+    
     align-items: center;
     justify-content: center;
-    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
     min-height: 55px;
 
     background-color: #cc8e83;
     border-bottom: 8px double #a55e51;
  
+}
+
+.buttonSubtitle {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 50%;
+   margin-right: 20px;
+
 }
