@@ -7,8 +7,6 @@ export const App = () => {
 
   const [section, setSection] = useState([]) 
   
-  
-
   return (
     <div className='appStyle'>
       <NavigationBar onSelect={setSection} />

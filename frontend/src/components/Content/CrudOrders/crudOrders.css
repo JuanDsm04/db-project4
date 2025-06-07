@@ -1,0 +1,21 @@
+.sectionStyle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+}
+
+.error-text {
+    color: red;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+}

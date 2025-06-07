@@ -6,8 +6,6 @@ export const Section = ({
     content,
     onSelect
 }) => {
-
-    
     return (
         <main className="fullContentStyle">
             <Header titleRestaurant={'Restaurante'}></Header>

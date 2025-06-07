@@ -6,9 +6,6 @@ import './CrudDishes.css'
 import { TitleForms } from "../../Titles/TitleForms";
 import { FormButton } from "../../Buttons/FormButton/FormButton";
 
-
-
-
 export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
     const [name, setName] = useState(dishData?.name || ''); 
     const [description, setDescription] = useState(dishData?.description || '');
@@ -329,9 +326,6 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
             alert('Hubo un error al intentar crear el platillo');
         }
     };
-
-
-
 
     return (
         <section className="sectionStyle">

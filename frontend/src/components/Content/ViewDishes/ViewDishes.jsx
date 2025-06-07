@@ -73,7 +73,6 @@ export const ViewDishes = ({onSelect, setSelectedDish}) => {
     
     ]
 
-
     return(
         <section className='viewDishesStyle'>
             
@@ -89,9 +88,8 @@ export const ViewDishes = ({onSelect, setSelectedDish}) => {
                 }))}
                 onShowMore={handleShowMore}
                 onSelect = {onSelect}
-            ></Table>
-
-           
+                showMoreTarget="crudDishes"
+            />
         </section>
     )
 }
