@@ -140,11 +140,11 @@ def editDish(editable_dish: modelExistentDish, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=400, detail="El platillo a editar no existe.")
 
-    dish_should_exist.name = editable_dish.name,
-    dish_should_exist.description = editable_dish.description,
-    dish_should_exist.type = editable_dish.type,
-    dish_should_exist.category = editable_dish.category,
-    dish_should_exist.preparation_minutes = editable_dish.preparation_minutes,
+    dish_should_exist.name = editable_dish.name
+    dish_should_exist.description = editable_dish.description
+    dish_should_exist.type = editable_dish.type
+    dish_should_exist.category = editable_dish.category
+    dish_should_exist.preparation_minutes = editable_dish.preparation_minutes
     dish_should_exist.base_price = editable_dish.base_price
 
     db.query(DishIngredient).filter(
