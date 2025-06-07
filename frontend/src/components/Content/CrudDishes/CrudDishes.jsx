@@ -19,10 +19,26 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
     const [basePrice, setBasePrice] = useState(dishData?.base_price || '');
     const [currentPrice, setCurrentPrice] = useState(dishData?.current_price || '');
     const [ingredients, setIngredients] = useState( [])
-    const [ingredientOptions, setIngredientOptions] = useState([]);
-    const [branches, setBranches] = useState([]);
-    
+    const [ingredientOptions, setIngredientOptions] = useState([])
+    const [branches, setBranches] = useState([])
+    const [errors, setErrors] = useState({});
 
+
+    const typeOpcion = [
+        {key: 'Appetizer' },
+        {key: 'Main' },
+        {key: 'Dessert' },
+        {key: 'Beverage' }
+    ]
+
+    const categoryOpcion = [
+        {key: 'Salads' },
+        {key: 'Pasta' },
+        {key: 'Grill' },
+        {key: 'Soup' },
+        {key: 'Seafood'}
+    ]
+    
     useEffect(() => {
         setBranches ([
             { id: 1, location: 'Centro Comercial Miraflores, Nivel 3, Zona 11, Ciudad de Guatemala' },
@@ -53,9 +69,25 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
         ])
     }, [])
 
-    useEffect(() => {
-        console.log('Branches actualizados:', branches);
-    }, [branches]); 
+    const validateFields = () => {
+        const newErrors = {};
+
+        if (!name.trim()) newErrors.name = 'El nombre es obligatorio.';
+        if (!description.trim()) newErrors.description = 'La descripción es obligatoria.';
+        if (!category) newErrors.category = 'La categoría es obligatoria.';
+        if (!type) newErrors.type = 'El tipo de platillo es obligatorio.';
+        if (!location) newErrors.location = 'La sucursal es obligatoria.';
+        if (!preparationMinutes || isNaN(preparationMinutes)) newErrors.preparationMinutes = 'Tiempo de preparación inválido.';
+        if (!basePrice || isNaN(basePrice)) newErrors.basePrice = 'Precio base inválido.';
+        if (!currentPrice || isNaN(currentPrice)) newErrors.currentPrice = 'Precio actual inválido.';
+        if (!ingredients.length || ingredients.some(ing => !ing.name || !ing.quantity || !ing.unit_measure)) {
+            newErrors.ingredients = 'Todos los ingredientes deben tener nombre, cantidad y unidad.';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
         
     
     
@@ -66,6 +98,16 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
       
         return a
            // Si se encuentra, devuelve el id, si no, devuelve null
+    };
+
+    const handleCategoryChange = (selectedLocation) => {
+    // Solo tomar el id de la sucursal seleccionada
+        setCategory(selectedLocation.key);        
+    };
+
+    const handleTypeChange = (selectedLocation) => {
+    // Solo tomar el id de la sucursal seleccionada
+        setType(selectedLocation.key);        
     };
 
 
@@ -115,9 +157,6 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
         ]);
     }
 
- 
-
-
     // Crear un nuevo listado con name, id y las demás propiedades
     const getIdsIngredients = (actualIngredients, optionsIngredientes) => {
         return actualIngredients.map(item => {
@@ -137,15 +176,16 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
 
     }
 
-
-
-
     const handleEditDish = async () => {
+        if (!validateFields()) {
+            alert('Por favor corrige los errores antes de continuar.');
+            return;
+        }
+
         let editableDish = null
-        console.log('INGREDIENTS',ingredients)
-        console.log('OPTIONSS', ingredientOptions)
+       
         let sendIngredients = getIdsIngredients(ingredients, ingredientOptions)
-        console.log('SEEENDINGREDIENTS', sendIngredients)
+    
 
         if (typeof location === "string") {
             const locationid = getBranchIdByLocation(location).id
@@ -177,8 +217,8 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
                 preparation_minutes: preparationMinutes,
                 base_price: basePrice,
                 current_price: [currentPrice],
-                ingredients: ingredients.map(ingredient => ingredient.id),  // Solo los IDs de los ingredientes
-                quantity: ingredients.map(ingredient => ingredient.quantity),  // Cantidades de los ingredientes
+                ingredients: sendIngredients.map(ingredient => ingredient.id),  // Solo los IDs de los ingredientes
+                quantity: sendIngredients.map(ingredient => ingredient.quantity),  // Cantidades de los ingredientes
                 branches: [location], // Las sucursales (locations) seleccionadas
             };
         }
@@ -239,19 +279,28 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
     };
 
     const handleCreateDish = async () => {
+        if (!validateFields()) {
+            alert('Por favor corrige los errores antes de continuar.');
+            return;
+        }
+
+        let sendIngredients = getIdsIngredients(ingredients, ingredientOptions)
         const dish = {
+         
             name,
             description,
             category,
             type,
-            location,
             preparation_minutes: preparationMinutes,
             base_price: basePrice,
-            current_price: currentPrice,
-            ingredients: ingredients.map(ingredient => ingredient.id),  // Solo enviar los IDs de los ingredientes
-            quantity: ingredients.map(ingredient => ingredient.quantity),  // Enviar las cantidades de los ingredientes
+            current_price: [currentPrice],
+            ingredients: sendIngredients.map(ingredient => ingredient.id),  // Solo los IDs de los ingredientes
+            quantity: sendIngredients.map(ingredient => ingredient.quantity),  // Cantidades de los ingredientes
+            branches: [location],
+            
               // Lista de sucursales seleccionadas
         };
+        console.log("Datos que se van a enviar al backend:", JSON.stringify(dish, null, 2));
 
         try {
             const response = await fetch('http://localhost:8000/newDish', {
@@ -287,9 +336,32 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
     return (
         <section className="sectionStyle">
             <Input text='Nombre del platillo: ' value={name} onChange={(e) => setName(e.target.value)} />
+            {errors.name && <span className="error-text">{errors.name}</span>}
+
             <Input text='Descripción: ' value={description} onChange={(e) => setDescription(e.target.value)} />
-            <Input text='Categoría: ' value={category} onChange={(e) => setCategory(e.target.value)} />
-            <Input text='Tipo de plato: ' value={type} onChange={(e) => setType(e.target.value)} />
+            {errors.description && <span className="error-text">{errors.description}</span>}
+
+            <Select 
+                    text={'Categoría: '} 
+                    options={categoryOpcion}  // Usamos 'ingredientOptions' 
+                    valueKey="key" 
+                    displayKey="key"
+                    value={(category)}
+                    onChange={(handleCategoryChange)}  // Usamos 'handleIngredientChange' para gestionar el cambio
+            />
+            {errors.category && <span className="error-text">{errors.category}</span>}
+
+            <Select 
+                    text={'Tipo de plato: '} 
+                    options={typeOpcion}  // Usamos 'ingredientOptions' 
+                    valueKey="key" 
+                    displayKey="key"
+                    value={(type)}
+                    onChange={(handleTypeChange)}  // Usamos 'handleIngredientChange' para gestionar el cambio
+            />
+            {errors.type && <span className="error-text">{errors.type}</span>}
+
+           
             <Select 
                     text={'Local Disponible'} 
                     options={branches}  // Usamos 'ingredientOptions' 
@@ -298,10 +370,16 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
                     value={(location)}
                     onChange={(handleLocationChange)}  // Usamos 'handleIngredientChange' para gestionar el cambio
             />
+            {errors.location && <span className="error-text">{errors.location}</span>}
             
-            <Input text='Tiempo de preparación: ' value={preparationMinutes} onChange={(e) => setPreparationMinutes(e.target.value)} />
-            <Input text='Precio base: ' value={basePrice} onChange={(e) => setBasePrice(e.target.value)} />
-            <Input text='Precio actual: ' value={currentPrice} onChange={(e) => setCurrentPrice(e.target.value)} />
+            <Input text='Tiempo de preparación: ' value={preparationMinutes} onChange={(e) => setPreparationMinutes(e.target.value)} type="number" step="1"  min="0"/>
+            {errors.preparationMinutes && <span className="error-text">{errors.preparationMinutes } </span>}
+
+            <Input text='Precio base: ' value={basePrice} onChange={(e) => setBasePrice(e.target.value)} type="number" step="0.01" min="0" />
+            {errors.basePrice && <span className="error-text">{errors.basePrice}</span>}
+
+            <Input text='Precio actual: ' value={currentPrice} onChange={(e) => setCurrentPrice(e.target.value)} type="number" step="0.01" min="0" />
+            {errors.currentPrice && <span className="error-text">{errors.currentPrice}</span>}
 
             
             <TitleForms text={'Listado de ingredientes'}></TitleForms>
@@ -322,6 +400,8 @@ export const CrudDishes = ({ dishData = null, isEditMode = false }) => {
                         </div>
                     );
                 })}
+
+                {errors.ingredients && <span className="error-text">{errors.ingredients}</span>}
 
 
 

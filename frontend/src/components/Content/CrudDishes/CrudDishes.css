@@ -13,3 +13,9 @@
     justify-content: center;
     gap: 20px;
 }
+
+.error-text {
+    color: red;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+}

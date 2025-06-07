@@ -15,9 +15,9 @@ export const Content = ({ contentOption, onSelect }) => {
             case 'viewStaff':
                 return <SubHeader titleSection={'Turnos del personal'} />
             case 'crudDishes':
-                return <SubHeader titleSection={'Ver y editar dellates del platillo'} showButton={true} text={'Regresar'} onClick={() => onSelect('viewDishes')}/>//cambiar onSelect
+                return <SubHeader titleSection={'Ver y editar detalles del platillo'} showButton={true} text={'Regresar'} onClick={() => onSelect('viewDishes')}/>//cambiar onSelect
             case 'newDish':
-                return <SubHeader titleSection={'Crear nuevo platillo'} showButton={true} text={'Cancelar'} onClick={() => onSelect('viewDishes')}/>//cambiar onSelect
+                return <SubHeader titleSection={'Crear nuevo platillo'} showButton={true} text={'Regresar'} onClick={() => onSelect('viewDishes')}/>//cambiar onSelect
             default:
                 return <SubHeader titleSection={'Platillos'} showButton={true} text={'Añadir Platillo +'} onClick={() => onSelect('newDish')}/>
         }
