@@ -1,8 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from app.db import SessionLocal
 from pydantic import BaseModel
 from typing import Optional
+from datetime import date
+import io
+import csv
 from app.models.orders_info import OrdersInfo
 from app.models.order_detail import OrderDetail
 from app.models.ingredient import Ingredient
@@ -115,3 +119,54 @@ def update_order_detail(order_detail_id: int, update_data: modelUpdateOrderDetai
             "ingredient_id": order_detail.id_ingredient
         }
     }
+
+
+@router.get("/orders/export")
+def export_orders_csv(
+    db: Session = Depends(get_db),
+    order_date: Optional[date] = Query(None),
+    status: Optional[str] = Query(None),
+    order_number: Optional[int] = Query(None),
+    ingredient: Optional[str] = Query(None),
+    max_price: Optional[float] = Query(None)
+):
+    query = db.query(OrdersInfo)
+
+    if order_date:
+        query = query.filter(OrdersInfo.order_date.cast(date) == order_date)
+    if status:
+        query = query.filter(OrdersInfo.status == status)
+    if order_number:
+        query = query.filter(OrdersInfo.order_number == order_number)
+    if ingredient:
+        query = query.filter(OrdersInfo.ingredient.ilike(f"%{ingredient}%"))
+    if max_price is not None:
+        query = query.filter(OrdersInfo.price <= max_price)
+
+    results = query.all()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["ID", "Order Number", "Ingredient",
+                    "Quantity", "Price", "Unit", "Order Date", "Status"])
+
+    for row in results:
+        writer.writerow([
+            row.id,
+            row.order_number,
+            row.ingredient,
+            row.quantity,
+            row.price,
+            row.unit,
+            row.order_date.strftime(
+                "%Y-%m-%d %H:%M:%S") if row.order_date else "",
+            row.status
+        ])
+
+    output.seek(0)
+
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=filtered_orders.csv"}
+    )
