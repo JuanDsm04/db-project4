@@ -9,6 +9,7 @@ import { useState } from 'react'
 
 export const Content = ({ contentOption, onSelect }) => {
     const [selectedDish, setSelectedDish] = useState(null)
+    const [selectedOrder,setSelectedOrder] = useState(null)
 
     const showTitle = (option) => {
         switch (option) {
@@ -36,7 +37,7 @@ export const Content = ({ contentOption, onSelect }) => {
             case 'viewDishes':
                 return <ViewDishes onSelect = {onSelect} setSelectedDish={setSelectedDish}/>
             case 'viewOrders':
-                return <ViewOrders onSelect = {onSelect} setSelectedDish={setSelectedDish}/>
+                return <ViewOrders onSelect = {onSelect} setSelectedOrder={setSelectedOrder}/>
             case 'viewStaff':
                 return <ViewStaff />
             case 'crudDishes':
