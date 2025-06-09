@@ -1,62 +1,41 @@
 import { useState, useEffect } from 'react'
 import { Table } from '../../Table/Table'
-import './viewOrders.css'
 import { CrudOrders } from '../CrudOrders/CrudOrders'
 
 export const ViewOrders = ({ onSelect, setSelectedOrder }) => {
     const [ordersData, setOrdersData] = useState([])
     
-    const formatDate = (dateString) => {
-        if (!dateString) return '';
-        
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) return dateString;
-        
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const year = date.getFullYear();
-        
-        return `${day}/${month}/${year}`;
-    };
-
-    const statusMap = {
-        'Pending': 'Pendiente',
-        'Delivered': 'Entregado',
-        'Cancelled': 'Cancelado'
-    };
-
     useEffect(() => {
         fetch('http://localhost:8000/orders')
             .then(res => res.json())
             .then(data => {
-                const seen = new Set();
-                
-                const groupedOrders = data.reduce((acc, order) => {
-                    if (!seen.has(order.id)) {
-                        seen.add(order.id);
-                        acc.push({ 
+                // Organizar los datos de las órdenes
+                const organizedOrders = data.reduce((acc, order) => {
+                    const existing = acc.find(o => o.order_number === order.order_number);
+                    if (!existing) {
+                        acc.push({
                             ...order,
-                            order_date: formatDate(order.order_date),
-                            status: statusMap[order.status] || order.status,
-                            supplier_name: order.supplier_name || '',
-                            ingredients: [] 
+                            ingredients: order.ingredient ? [{
+                                name: order.ingredient,
+                                quantity: order.quantity,
+                                price: order.price,
+                                unit: order.unit
+                            }] : []
                         });
+                    } else {
+                        if (order.ingredient) {
+                            existing.ingredients.push({
+                                name: order.ingredient,
+                                quantity: order.quantity,
+                                price: order.price,
+                                unit: order.unit
+                            });
+                        }
                     }
-                    
-                    const existing = acc.find(o => o.id === order.id);
-                    if (order.ingredient) {
-                        existing.ingredients.push({
-                            name: order.ingredient,
-                            quantity: order.quantity,
-                            price: order.price,
-                            unit_measure: order.unit_measure
-                        });
-                    }
-                    
                     return acc;
                 }, []);
 
-                setOrdersData(groupedOrders);
+                setOrdersData(organizedOrders);
             })
             .catch(console.error);
     }, []);
@@ -64,14 +43,16 @@ export const ViewOrders = ({ onSelect, setSelectedOrder }) => {
     const handleShowMore = (order) => {
         console.log('Orden seleccionada:', order);
         setSelectedOrder(order);
-    }
+    };
 
     const columns = [
-        { key: 'id', titulo: 'Número de orden' },
-        { key: 'order_date', titulo: 'Fecha de orden' },
+        { key: 'order_number', titulo: 'Número de orden' },
+        { key: 'order_date', titulo: 'Fecha' },
         { key: 'status', titulo: 'Estado' },
+        { key: 'total_price', titulo: 'Precio total' },
+        { key: 'ingredients_count', titulo: 'Ingredientes' },
         { key: 'showMore', titulo: 'Acciones' },
-    ]
+    ];
 
     return (
         <section className='viewOrdersStyle'>
@@ -79,11 +60,14 @@ export const ViewOrders = ({ onSelect, setSelectedOrder }) => {
                 nameColumns={columns} 
                 data={ordersData.map(order => ({
                     ...order,
+                    ingredients_count: order.ingredients?.length || 0,
+                    total_price: order.ingredients?.reduce((sum, ing) => sum + (ing.price * ing.quantity), 0) || 0,
+                    order_date: new Date(order.order_date).toLocaleString(),
                     showMore: (
                         <button onClick={() => handleShowMore(order)}>
-                            Mostrar más
+                            Ver detalles
                         </button>
-                    )
+                    ),
                 }))}
                 onShowMore={handleShowMore}
                 onSelect={onSelect}
